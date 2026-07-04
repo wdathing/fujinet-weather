@@ -314,7 +314,11 @@ void put_icon(int x, int y, byte *icon)
  */
 void set_screenbuffer(void)
 {
-  screenBuffer = (byte *) (((word) * (byte *) 0x00BC) << 8);
+#ifdef DRAGON
+  screenBuffer = (byte *) 0x6400;
+#else
+   screenBuffer = (byte *) (((word) * (byte *) 0x00BC) << 8);
+#endif
 }
 #endif
 

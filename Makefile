@@ -5,6 +5,7 @@ PLATFORMS += apple2
 PLATFORMS += atari-pas
 PLATFORMS += c64
 PLATFORMS += coco
+PLATFORMS += dragon
 #PLATFORMS += vic20
 
 # You can run 'make <platform>' to build for a specific platform,
@@ -41,13 +42,16 @@ FUJINET_LIB = 4.10.0
 # Format: platform+=combo1,combo2
 PLATFORM_COMBOS = \
   vic20+=vic20-rom \
-  atari-pas+=atari
+  atari-pas+=atari \
+  dragon+=coco
 
 CFLAGS_EXTRA_COCO = -Wno-const
+COCO_ORG = 2800
+DRAGON_ORG = 1000
 
 ifeq ($(MAKE_COCO3),COCO3)
 	CFLAGS_EXTRA_COCO += -DCOCO3
-	LDFLAGS_EXTRA_COCO = --org=1000 --limit=7E00
+	LDFLAGS_EXTRA_COCO = --org=$(COCO_ORG) --limit=7E00
 endif
 
 ifeq ($(PLATFORM),apple2)
@@ -58,6 +62,15 @@ endif
 # Support 'make coco3'
 coco3:
 	$(MAKE) coco MAKE_COCO3=COCO3
+
+## Dragon specific flags (cmoc)
+CFLAGS_EXTRA_DRAGON = \
+	--no-relocate \
+	--intermediate \
+	-DDRAGON \
+	--dragon 
+LDFLAGS_EXTRA_DRAGON = --no-relocate --dragon --limit=6400 --org=$(DRAGON_ORG) --intermediate --raw
+
 
 # Generated CoCo 3 charset header (4bpp), built from the MSDOS port's font.
 COCO3_CHARSET_H = coco/src/charset_coco3.h

@@ -26,6 +26,8 @@ void get_location(LOCATION *loc)
 	char buf[LINE_LEN];
 	char message[LINE_LEN];
 
+	network_init();
+
 	err = network_open(ip_url, OPEN_MODE_READ, OPEN_TRANS_NONE);
 	handle_err("ip-api open");
 
